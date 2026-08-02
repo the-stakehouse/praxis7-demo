@@ -3,460 +3,240 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>TheStakeHouse · Praxis7 — AI iGaming Operations Layer</title>
-<meta name="description" content="An AI-native iGaming platform that clones a fully-branded casino into a new market in under a week — one bonus engine, one source of truth for money, AI agents doing the operator work."/>
+<title>TheStakeHouse · Praxis7 — The magic moment</title>
+<meta name="description" content="Drop one promo in. Watch Praxis7 fan out across the operator's stack in real time — seven AI agents, one job each."/>
 <meta property="og:type" content="website"/>
-<meta property="og:title" content="TheStakeHouse · Praxis7 — casinos, built like a factory"/>
-<meta property="og:description" content="Clone a branded casino per market in under a week. Bonus builder, reconciled finance, and AI action agents — one live interactive demo."/>
+<meta property="og:title" content="Praxis7 — the magic moment: one promo, seven jobs"/>
+<meta property="og:description" content="Drop a promo in. Watch Praxis7 fan out across the operator's stack in real time."/>
 <meta property="og:image" content="https://the-stakehouse.github.io/praxis7-demo/og-image.jpg"/>
 <meta property="og:url" content="https://the-stakehouse.github.io/praxis7-demo/"/>
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:title" content="TheStakeHouse · Praxis7 — AI iGaming operations layer"/>
-<meta name="twitter:description" content="Casinos, built like a factory. Interactive demo: brand factory, bonus builder, reconciled finance, AI agents."/>
+<meta name="twitter:title" content="Praxis7 — the magic moment"/>
+<meta name="twitter:description" content="One promo in, seven jobs out. Watch Praxis7 fan across the operator stack."/>
 <meta name="twitter:image" content="https://the-stakehouse.github.io/praxis7-demo/og-image.jpg"/>
 <style>
 :root{
-  --bg:#0a0710; --bg2:#0d0912; --panel:#150d1c; --panel2:#110a17; --raise:#1b1124;
-  --line:#2a1b34; --line2:#39243f;
-  --ink:#f4ecf3; --mut:#b6a2b5; --dim:#7d6a7f;
-  --mag:#ec4899; --mag2:#f0308f; --pur:#a855f7; --cy:#22d3ee; --teal:#2dd4bf; --mint:#34d399; --gold:#fbbf24;
-  --red:#fb7185; --amb:#fbbf24;
-  --mono:'SF Mono','SFMono-Regular','Courier New',monospace;
+  --bg:#0b0710; --panel:#160f1d; --panel2:#1a1222; --line:rgba(236,72,153,.14);
+  --ink:#f4ecf3; --dim:#b6a2b5; --mut:#7c6b7d;
+  --mag:#ec4899; --pur:#a855f7; --cy:#22d3ee; --mint:#34d399; --amber:#fbbf24;
+  --mono:'SF Mono',ui-monospace,'JetBrains Mono',Menlo,Consolas,monospace;
   --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Arial,sans-serif;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:linear-gradient(180deg,var(--bg),#080509);color:var(--ink);
-  font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden}
-a{color:inherit;text-decoration:none}
-.wrap{max-width:1120px;margin:0 auto;padding:0 22px;position:relative;z-index:1}
-/* animated orbs */
-.orbs{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
-.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.5;animation:float 18s ease-in-out infinite}
-.orb.a{width:520px;height:520px;background:radial-gradient(circle,#a855f7,transparent 70%);top:-160px;left:-120px}
-.orb.b{width:460px;height:460px;background:radial-gradient(circle,#22d3ee,transparent 70%);top:-120px;right:-140px;animation-delay:-6s}
-.orb.c{width:420px;height:420px;background:radial-gradient(circle,#ec4899,transparent 70%);top:640px;left:40%;animation-delay:-11s;opacity:.35}
-@keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,50px) scale(1.08)}66%{transform:translate(-30px,20px) scale(.96)}}
-@media(prefers-reduced-motion:reduce){.orb{animation:none}}
-
-.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(16px);background:rgba(10,7,16,.72);border-bottom:1px solid var(--line)}
-.nav .row{display:flex;align-items:center;gap:14px;height:60px}
-.brand{display:flex;align-items:center;gap:11px;font-weight:700;letter-spacing:.3px}
-.logo{width:32px;height:32px;border-radius:9px;background:conic-gradient(from 200deg,var(--mag),var(--pur),var(--cy),var(--mag));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;animation:spin 12s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.brand small{display:block;font-size:10px;color:var(--dim);font-weight:500;letter-spacing:2px;font-family:var(--mono)}
-.tabs{display:flex;gap:4px;margin-left:6px;overflow-x:auto}
-.tab{font-size:13px;color:var(--mut);padding:8px 13px;border-radius:9px;cursor:pointer;border:1px solid transparent;white-space:nowrap}
-.tab:hover{color:var(--ink);background:var(--panel)}
-.tab.on{color:var(--ink);background:var(--raise);border-color:var(--line2)}
-.navpill{margin-left:auto;font-size:11px;font-family:var(--mono);color:var(--teal);border:1px solid var(--line2);padding:5px 11px;border-radius:20px;display:flex;align-items:center;gap:7px;white-space:nowrap}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 8px var(--mint);animation:pulse 1.8s ease-in-out infinite}
-@keyframes pulse{50%{opacity:.35}}
-@media(max-width:760px){.tabs{display:none}}
-
-section.view{display:none;padding:34px 0 70px;animation:sectionIn .45s ease}
-section.view.on{display:block}
-@keyframes sectionIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-
-.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:2px;color:var(--teal);text-transform:uppercase}
-h1.hero{font-size:47px;line-height:1.06;margin:14px 0 12px;font-weight:800;letter-spacing:-.6px;
-  background:linear-gradient(120deg,#fff 15%,#ffc4e6 45%,#8ad9ff 80%,#fff 120%);background-size:220% auto;
-  -webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 8s linear infinite}
-@keyframes shimmer{to{background-position:220% center}}
-.lede{font-size:16.5px;color:var(--mut);max-width:650px}
-.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:26px}
-@media(max-width:760px){h1.hero{font-size:33px}.hero-stats{grid-template-columns:repeat(2,1fr)}}
-.hstat{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:13px;padding:15px 16px}
-.hstat .n{font-size:24px;font-weight:800;font-family:var(--mono);letter-spacing:-.5px}
-.hstat .l{font-size:11.5px;color:var(--dim);margin-top:4px}
-.gm{color:var(--mag)}.gc{color:var(--cy)}.gg{color:var(--mint)}.gp{color:var(--pur)}
-.cta{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}
-.btn{font-size:13.5px;font-weight:600;padding:11px 18px;border-radius:10px;cursor:pointer;border:1px solid var(--line2);color:var(--ink);background:var(--panel);transition:.2s}
-.btn:hover{border-color:var(--pur);transform:translateY(-1px)}
-.btn.p{background:linear-gradient(135deg,var(--mag),var(--pur));border-color:transparent}
-
-.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}
-@media(max-width:860px){.feature-grid{grid-template-columns:1fr}}
-.fcard{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:15px;padding:20px;position:relative;overflow:hidden;transition:.25s;cursor:default}
-.fcard:hover{border-color:var(--line2);transform:translateY(-3px);box-shadow:0 12px 40px rgba(168,85,247,.10)}
-.fcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--mag),var(--pur),var(--cy))}
-.fic{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;background:var(--raise);border:1px solid var(--line2);margin-bottom:12px}
-.fcard h3{margin:0 0 6px;font-size:16px}
-.fcard p{margin:0;font-size:13.5px;color:var(--mut)}
-
-.shead{display:flex;align-items:baseline;gap:12px;margin:0 0 4px}
-.shead h2{font-size:22px;margin:0;font-weight:750;letter-spacing:-.3px}
-.shead .k{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:1px}
-.sub{color:var(--mut);font-size:14px;margin:0 0 22px;max-width:660px}
-
-/* reveal on scroll */
-.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
-.reveal.in{opacity:1;transform:none}
-
-/* bonus builder */
-.builder{display:grid;grid-template-columns:300px 1fr;gap:16px}
-@media(max-width:860px){.builder{grid-template-columns:1fr}}
-.editor{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:15px;padding:16px}
-.editor .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;margin:14px 0 7px}
-.editor .lab:first-child{margin-top:0}
-.field{background:var(--bg2);border:1px solid var(--line2);border-radius:9px;padding:9px 11px;font-size:13px;color:var(--ink)}
-.ibox{display:flex;gap:9px;align-items:center;margin-bottom:9px}
-.chip{width:46px;height:46px;flex:none;border-radius:9px;background:linear-gradient(135deg,var(--mag2),var(--pur));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#fff}
-.ibox .stack{flex:1;display:flex;flex-direction:column;gap:6px}
-.preview{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:15px;padding:26px 28px}
-.bonus-title{font-size:30px;font-weight:800;color:var(--teal);margin:0 0 20px;letter-spacing:-.5px}
-.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-@media(max-width:620px){.tiles{grid-template-columns:1fr}}
-.tile .big{border-radius:14px;background:linear-gradient(140deg,#f22fae,#c81fd6);display:flex;align-items:center;justify-content:center;height:118px;font-size:34px;font-weight:800;color:#fff;box-shadow:0 8px 30px rgba(200,31,214,.18);letter-spacing:-1px;transition:.25s}
-.tile:hover .big{transform:translateY(-3px) scale(1.02)}
-.tile .cap{color:var(--teal);font-weight:600;font-size:14px;margin-top:10px}
-.terms{margin-top:26px}
-.terms h4{color:var(--teal);font-size:16px;margin:22px 0 10px;display:flex;align-items:center;gap:8px}
-.terms ul{list-style:none;margin:0;padding:0}
-.terms li{font-size:14px;color:#e7dbe6;padding:5px 0 5px 18px;position:relative}
-.terms li::before{content:'';position:absolute;left:2px;top:12px;width:5px;height:5px;border-radius:50%;background:var(--mag)}
-.terms li b{color:#fff;font-weight:600}
-
-/* finance */
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:13px}
-.kpi{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:13px;padding:15px 16px;position:relative;overflow:hidden}
-.kpi::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--mag),var(--cy))}
-.kpi .l{font-size:11px;font-family:var(--mono);letter-spacing:.5px;color:var(--mut);text-transform:uppercase}
-.kpi .v{font-size:25px;font-weight:800;font-family:var(--mono);margin-top:7px;letter-spacing:-1px}
-.kpi .f{font-size:11.5px;color:var(--dim);margin-top:5px}
-.bad{color:var(--red)}.good{color:var(--mint)}.warn{color:var(--amb)}
-.grid2{display:grid;grid-template-columns:1.15fr 1fr;gap:15px;margin-top:15px}
-@media(max-width:860px){.grid2{grid-template-columns:1fr}}
-.panel{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:14px;padding:17px 18px}
-.panel h3{margin:0 0 3px;font-size:14.5px}
-.panel .ph{font-size:12px;color:var(--mut);margin-bottom:14px}
-.chartbox{position:relative;height:230px}
-.flow{display:flex;flex-direction:column;gap:8px}
-.frow{display:flex;justify-content:space-between;font-size:13.5px;padding:9px 12px;border-radius:9px;background:var(--panel2);border:1px solid var(--line)}
-.frow.tot{background:linear-gradient(90deg,#241033,#110a17);border-color:var(--line2)}
-.frow .n{font-weight:700;font-family:var(--mono)}
-.frow small{color:var(--mut)}
-table{width:100%;border-collapse:collapse;font-size:12.6px;margin-top:15px}
-th{text-align:left;color:var(--mut);font-weight:600;font-size:10.5px;font-family:var(--mono);letter-spacing:.5px;text-transform:uppercase;padding:8px 9px;border-bottom:1px solid var(--line)}
-td{padding:9px;border-bottom:1px solid #1c1226;vertical-align:top}
-tr:hover td{background:#150d1e}
-.st{font-size:10.5px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap;font-family:var(--mono)}
-.st.crit{background:#3a1420;color:#fda4af}.st.hi{background:#3a2c10;color:#fcd34d}.st.mid{background:#0e2a33;color:#67e8f9}.st.ok{background:#0f2c24;color:#6ee7b7}
-.own{font-size:11px;color:var(--cy);font-family:var(--mono)}
-.call{margin-top:15px;border:1px solid #5c2247;background:linear-gradient(90deg,#22101c,#110a17);border-radius:14px;padding:15px 17px;display:flex;gap:13px;align-items:flex-start}
-.call i{width:30px;height:30px;border-radius:9px;background:#3a1420;color:#fda4af;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:800;flex:none}
-.call b{color:#f9a8d4}
-
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(900px 520px at 8% -6%, rgba(168,85,247,.16), transparent 60%),
+    radial-gradient(820px 480px at 96% 8%, rgba(236,72,153,.12), transparent 62%),
+    linear-gradient(180deg,#0b0710,#080509);
+  background-attachment:fixed;
+}
+.wrap{max-width:1240px;margin:0 auto;padding:26px 26px 70px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{font-weight:800;letter-spacing:.14em;font-size:15px}
+.badge{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--mag);
+  border:1px solid var(--line);border-radius:999px;padding:8px 16px;background:rgba(236,72,153,.05)}
+h1{font-size:clamp(26px,4.4vw,40px);line-height:1.08;font-weight:800;margin:38px 0 12px;letter-spacing:-.01em}
+h1 .mm{background:linear-gradient(90deg,#ec4899,#f9a8d4,#a855f7);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{max-width:760px;color:var(--dim);font-size:15px;line-height:1.6;margin:0 0 30px}
+.sub .grey{color:var(--mut)}
+.grid{display:grid;grid-template-columns:300px 1fr;gap:18px;align-items:start}
+@media(max-width:880px){.grid{grid-template-columns:1fr}}
+.card{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:16px}
+/* control panel */
+.ctrl{padding:18px}
+.eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--mut);text-transform:uppercase;margin-bottom:12px}
+.promo{border:1px solid var(--line);border-radius:12px;padding:14px 15px;background:rgba(255,255,255,.015)}
+.promo .n{font-weight:700;font-size:15px}
+.promo .d{color:var(--dim);font-size:12.5px;margin-top:5px;font-family:var(--mono)}
+.drop{margin-top:16px;width:100%;border:none;cursor:pointer;border-radius:11px;padding:13px 16px;font-weight:700;font-size:14.5px;color:#fff;
+  background:linear-gradient(90deg,#ec4899,#a855f7);box-shadow:0 10px 30px -12px rgba(236,72,153,.6);transition:transform .12s,filter .2s,opacity .2s}
+.drop:hover{filter:brightness(1.07)}
+.drop:active{transform:translateY(1px)}
+.drop:disabled{opacity:.55;cursor:default;filter:grayscale(.2)}
+.elapsed{margin-top:16px}
+.elapsed .k{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--mut);text-transform:uppercase}
+.elapsed .v{font-family:var(--mono);font-size:26px;font-weight:700;color:var(--mag);margin-top:3px}
+.hint{margin-top:14px;font-size:11.5px;color:var(--mut);line-height:1.5}
 /* agents */
-.agrid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-@media(max-width:860px){.agrid{grid-template-columns:1fr}}
-.agent{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:15px;padding:20px}
-.agent .top{display:flex;align-items:center;gap:11px;margin-bottom:6px}
-.agent .av{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;border:1px solid var(--line2)}
-.agent h3{margin:0;font-size:16px}
-.agent .role{font-size:11px;font-family:var(--mono);color:var(--dim)}
-.agent p{font-size:13.5px;color:var(--mut)}
-.pipe{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px;font-family:var(--mono);font-size:11.5px}
-.node{background:var(--raise);border:1px solid var(--line2);border-radius:8px;padding:7px 10px;color:var(--ink)}
-.arr{color:var(--pur)}
-.rule{margin-top:14px;background:var(--bg2);border:1px solid var(--line2);border-radius:11px;padding:13px 15px;font-family:var(--mono);font-size:12.5px;color:#e7dbe6;line-height:1.7}
-.rule .kw{color:var(--cy)}.rule .v{color:var(--mint)}.rule .m{color:var(--mag)}
-.guard{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.gtag{font-size:11px;font-family:var(--mono);color:var(--mut);border:1px solid var(--line2);border-radius:7px;padding:5px 9px;background:var(--panel2)}
-
-/* factory */
-.markets{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
-.mbtn{font-size:13px;font-family:var(--mono);color:var(--mut);border:1px solid var(--line2);background:var(--panel2);padding:8px 14px;border-radius:9px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:.2s}
-.mbtn .sw{width:11px;height:11px;border-radius:3px}
-.mbtn.on{color:var(--ink);background:var(--raise);border-color:var(--acc)}
-.casino{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:.3s}
-.casino .cbar{height:52px;display:flex;align-items:center;gap:12px;padding:0 18px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,color-mix(in srgb,var(--acc) 22%,transparent),transparent)}
-.casino .clogo{width:26px;height:26px;border-radius:7px;background:var(--acc);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#0a0710}
-.casino .cname{font-weight:700;font-size:15px}
-.casino .cnav{margin-left:auto;display:flex;gap:16px;font-size:12px;color:var(--mut)}
-.casino .cbody{padding:22px 20px;display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
-@media(max-width:720px){.casino .cbody{grid-template-columns:1fr}}
-.promo{border-radius:14px;padding:22px;background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 85%,#000),color-mix(in srgb,var(--acc) 35%,#12081a));min-height:150px;display:flex;flex-direction:column;justify-content:center}
-.promo .kick{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.8)}
-.promo .big{font-size:29px;font-weight:800;color:#fff;margin:6px 0 2px;letter-spacing:-.5px}
-.promo .small{font-size:13px;color:rgba(255,255,255,.85)}
-.gtiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.gtile{background:var(--panel2);border:1px solid var(--line2);border-radius:11px;height:64px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--mut);font-family:var(--mono)}
-.gtile b{color:var(--acc)}
-.fchips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-.fchip{font-size:11px;font-family:var(--mono);color:var(--mut);border:1px solid var(--line2);border-radius:20px;padding:4px 10px}
-.fchip b{color:var(--acc)}
-.fpipe{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:18px}
-@media(max-width:720px){.fpipe{grid-template-columns:1fr 1fr}}
-.pstep{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:13px;padding:15px;position:relative}
-.pstep .pic{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;background:var(--raise);border:1px solid var(--line2);margin-bottom:9px}
-.pstep h4{margin:0 0 4px;font-size:13px}
-.pstep p{margin:0;font-size:11.5px;color:var(--mut)}
-.pstep .num{position:absolute;top:11px;right:12px;font-family:var(--mono);font-size:10.5px;color:var(--dim)}
-
-.foot{border-top:1px solid var(--line);color:var(--dim);font-size:11.5px;text-align:center;padding:24px 0 34px}
-.foot b{color:var(--mut)}
-.wmtag{position:fixed;bottom:12px;right:13px;z-index:60;font-size:10px;font-family:var(--mono);color:var(--dim);border:1px solid var(--line2);background:rgba(13,9,18,.85);padding:4px 10px;border-radius:20px;pointer-events:none}
+.agents{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:1080px){.agents{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.agents{grid-template-columns:1fr}}
+.agent{padding:16px 16px 17px;position:relative;overflow:hidden;transition:border-color .35s,box-shadow .35s,transform .35s}
+.agent .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.agent .dot{width:9px;height:9px;border-radius:50%;background:#4b3b52;flex:none;transition:background .3s,box-shadow .3s}
+.agent .name{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px}
+.agent .st{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);transition:color .3s}
+.agent .role{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin-top:9px}
+.agent .msg{font-size:12.5px;color:var(--dim);margin-top:11px;min-height:16px;line-height:1.45;opacity:0;transform:translateY(3px);transition:opacity .3s,transform .3s}
+.agent.show .msg{opacity:1;transform:none}
+/* states */
+.agent.working{border-color:rgba(251,191,36,.4);box-shadow:0 0 0 1px rgba(251,191,36,.14),0 14px 40px -20px rgba(251,191,36,.4)}
+.agent.working .dot{background:var(--amber);box-shadow:0 0 0 4px rgba(251,191,36,.16);animation:pulse 1s ease-in-out infinite}
+.agent.working .st{color:var(--amber)}
+.agent.done{border-color:rgba(52,211,153,.34)}
+.agent.done .dot{background:var(--mint);box-shadow:0 0 0 4px rgba(52,211,153,.14)}
+.agent.done .st{color:var(--mint)}
+.agent .bar{position:absolute;left:0;bottom:0;height:2px;width:0;background:linear-gradient(90deg,#ec4899,#a855f7);transition:width .2s linear}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.35);opacity:.75}}
+/* console */
+.console{margin-top:18px;padding:16px 18px;min-height:150px;font-family:var(--mono);font-size:12.5px;line-height:1.85;color:var(--dim)}
+.console .ln{opacity:0;transform:translateY(4px);animation:ln .28s ease forwards}
+.console .t{color:var(--mut)}
+.console .hl{color:var(--mag);font-weight:700}
+.console .ok{color:var(--mint)}
+.console .b{color:var(--ink);font-weight:600}
+@keyframes ln{to{opacity:1;transform:none}}
+.foot{margin-top:26px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.link{color:var(--cy);text-decoration:none;font-size:13px;font-family:var(--mono)}
+.link:hover{text-decoration:underline}
+.wm{font-family:var(--mono);font-size:11px;color:var(--mut);border:1px solid var(--line);border-radius:999px;padding:6px 13px}
 </style>
 </head>
 <body>
-<div class="orbs"><div class="orb a"></div><div class="orb b"></div><div class="orb c"></div></div>
-
-<div class="nav"><div class="wrap"><div class="row">
-  <div class="brand"><div class="logo">S7</div><div>TheStakeHouse<small>PRAXIS7 · OPS LAYER</small></div></div>
-  <div class="tabs">
-    <div class="tab on" data-v="overview">Overview</div>
-    <div class="tab" data-v="factory">Brand Factory</div>
-    <div class="tab" data-v="bonus">Bonus Builder</div>
-    <div class="tab" data-v="finance">Finance Recon</div>
-    <div class="tab" data-v="agents">AI Agents</div>
-  </div>
-  <div class="navpill"><span class="dot"></span> live demo</div>
-</div></div></div>
-
 <div class="wrap">
+  <div class="top">
+    <div class="brand">THE STAKE HOUSE</div>
+    <div class="badge">SIMULATED RUN · ARCHITECTURE REAL, DATA ILLUSTRATIVE</div>
+  </div>
 
-<!-- OVERVIEW -->
-<section class="view on" id="overview">
-  <div class="eyebrow">AI-native iGaming operations layer</div>
-  <h1 class="hero">Casinos, built like a factory.</h1>
-  <p class="lede">TheStakeHouse clones a fully-branded, fully-integrated online casino into a new market in under a week — then runs it lean: one bonus engine, one source of truth for money, and AI agents doing the repetitive operator work.</p>
-  <div class="hero-stats">
-    <div class="hstat"><div class="n gc" data-count="1" data-suffix=" wk" data-prefix="&lt; ">&lt; 1 wk</div><div class="l">to launch a new brand</div></div>
-    <div class="hstat"><div class="n gg" data-count="10580" data-prefix="$">$10,580</div><div class="l">corrected NGR, reconciled</div></div>
-    <div class="hstat"><div class="n gm" data-count="35" data-suffix="×">35×</div><div class="l">unified bonus engine</div></div>
-    <div class="hstat"><div class="n gp">24/7</div><div class="l">AI action agents</div></div>
-  </div>
-  <div class="cta">
-    <div class="btn p" data-go="factory">See the brand factory →</div>
-    <div class="btn" data-go="finance">Finance reconciliation</div>
-  </div>
-  <div class="feature-grid">
-    <div class="fcard reveal"><div class="fic">🏭</div><h3>Brand factory</h3><p>Design a theme in Figma, pipe it straight to the CMS, and spin up a new branded casino per market — same platform, siloed data, days not months.</p></div>
-    <div class="fcard reveal"><div class="fic">🤖</div><h3>AI action agents</h3><p>Typed action requests with deterministic guardrails and maker-checker. One agent grants bonuses in the back office, another drives Smartico journeys.</p></div>
-    <div class="fcard reveal"><div class="fic">📊</div><h3>Unified finance</h3><p>One NGR definition across the back office and Smartico/BigQuery — real GGR minus real bonus cost — so the money always reconciles.</p></div>
-  </div>
-</section>
+  <h1>The <span class="mm">magic moment</span> — one promo, seven jobs</h1>
+  <p class="sub">Drop a promo in. Watch Praxis7 fan out across the operator's stack in real time.
+    <span class="grey">This run is scripted for the pitch — the architecture behind it is the real Praxis7 design.</span></p>
 
-<!-- FACTORY -->
-<section class="view" id="factory">
-  <div class="shead"><h2>Brand factory</h2><span class="k">// same engine, any skin</span></div>
-  <p class="sub">Every brand runs on one shared platform. Switch markets and the factory re-skins the whole product — colours, name, offer, games — in seconds.</p>
-  <div class="markets" id="markets"></div>
-  <div class="casino" id="casino" style="--acc:#ec4899">
-    <div class="cbar"><div class="clogo" id="clogo">R</div><div class="cname" id="cname">RoyalStake</div>
-      <div class="cnav"><span>Casino</span><span>Live</span><span>Promotions</span><span>VIP</span></div></div>
-    <div class="cbody">
-      <div class="promo" id="promo">
-        <div class="kick" id="pkick">Welcome offer</div>
-        <div class="big" id="pbig">100% up to €500</div>
-        <div class="small" id="psmall">+ 100 Free Spins · 35× wagering</div>
+  <div class="grid">
+    <!-- control -->
+    <div class="card ctrl">
+      <div class="eyebrow">You do one thing</div>
+      <div class="promo">
+        <div class="n">Summer Splash</div>
+        <div class="d">50% reload · up to €200 · 72h window</div>
       </div>
-      <div>
-        <div class="gtiles">
-          <div class="gtile">Big Bass <b>Bonanza</b></div><div class="gtile">Gates of <b>Olympus</b></div>
-          <div class="gtile">Sweet <b>Bonanza</b></div><div class="gtile">Live <b>Roulette</b></div>
-        </div>
-        <div class="fchips">
-          <div class="fchip">market <b id="cmkt">Ireland</b></div><div class="fchip">currency <b id="ccur">EUR</b></div>
-          <div class="fchip">licence <b id="clic">MGA</b></div><div class="fchip">rails <b id="crail">Cards · Apple Pay</b></div>
-        </div>
+      <button class="drop" id="drop">▶ Drop into Praxis7</button>
+      <div class="elapsed">
+        <div class="k">Elapsed</div>
+        <div class="v" id="elapsed">0.0s</div>
       </div>
+      <div class="hint" id="hint">Seven AI agents, one job each. Click to watch them pick up the promo.</div>
     </div>
-  </div>
-  <div class="fpipe">
-    <div class="pstep reveal"><span class="num">01</span><div class="pic">🎨</div><h4>Figma theme</h4><p>Colours, logo, type as design tokens.</p></div>
-    <div class="pstep reveal"><span class="num">02</span><div class="pic">🔗</div><h4>CMS sync</h4><p>Tokens flow into the CMS automatically.</p></div>
-    <div class="pstep reveal"><span class="num">03</span><div class="pic">🏗️</div><h4>Brand build</h4><p>Front end stamped, back office wired.</p></div>
-    <div class="pstep reveal"><span class="num">04</span><div class="pic">🗄️</div><h4>Data silo</h4><p>Isolated player + finance data per brand.</p></div>
-    <div class="pstep reveal"><span class="num">05</span><div class="pic">🚀</div><h4>Go live</h4><p>Payments &amp; journeys active day one.</p></div>
-  </div>
-</section>
 
-<!-- BONUS -->
-<section class="view" id="bonus">
-  <div class="shead"><h2>Bonus terms builder</h2><span class="k">// author once, render everywhere</span></div>
-  <p class="sub">Edit the offer on the left; the player-facing block renders live on the right and exports as clean HTML for any brand.</p>
-  <div class="builder">
-    <div class="editor">
-      <div class="lab">Bonus title</div><div class="field">Bonus info</div>
-      <div class="lab">Info boxes</div>
-      <div class="ibox"><div class="chip">100%</div><div class="stack"><div class="field">100%</div><div class="field" style="color:var(--teal)">Deposit Match</div></div></div>
-      <div class="ibox"><div class="chip">€1k</div><div class="stack"><div class="field">€1,000</div><div class="field" style="color:var(--teal)">Max Bonus</div></div></div>
-      <div class="ibox"><div class="chip">35X</div><div class="stack"><div class="field">35X</div><div class="field" style="color:var(--teal)">Wagering</div></div></div>
-      <div class="lab">Sections</div>
-      <div class="field">🎉 Welcome Bonus Terms &amp; Conditions</div>
-      <div class="field" style="margin-top:8px">🔒 How It Works</div>
-    </div>
-    <div class="preview">
-      <div class="bonus-title">Bonus info</div>
-      <div class="tiles">
-        <div class="tile"><div class="big">100%</div><div class="cap">Deposit Match</div></div>
-        <div class="tile"><div class="big">€1,000</div><div class="cap">Max Bonus</div></div>
-        <div class="tile"><div class="big">35X</div><div class="cap">Wagering</div></div>
-      </div>
-      <div class="terms">
-        <h4>🎉 Welcome Bonus Terms &amp; Conditions</h4>
-        <ul>
-          <li><b>Offer:</b> 100% Match Bonus up to €500 + 100 Free Spins</li>
-          <li><b>Eligible Game:</b> Free Spins on Big Bass Bonanza</li>
-          <li><b>Wagering Requirement:</b> 35× (bonus and spin winnings)</li>
-          <li><b>Minimum Deposit:</b> €20</li>
-          <li><b>Maximum Bet While Wagering:</b> €5</li>
-          <li><b>Free Spins Min Bet:</b> €0.20</li>
-          <li><b>Eligible Players:</b> New players only, one account per household / IP / device</li>
-        </ul>
-        <h4>🔒 How It Works</h4>
-        <ul>
-          <li>Register a new player account</li>
-          <li>Make a qualifying deposit of at least €20</li>
-          <li>Your 100% match + 100 free spins are credited automatically</li>
-          <li>Wager the bonus 35× within 14 days to unlock withdrawals</li>
-          <li>Convert to real balance and cash out — no maximum on winnings</li>
-        </ul>
-      </div>
-    </div>
+    <!-- agents -->
+    <div class="agents" id="agents"></div>
   </div>
-</section>
 
-<!-- FINANCE -->
-<section class="view" id="finance">
-  <div class="shead"><h2>Finance reconciliation</h2><span class="k">// BO ↔ Postgres, one source of truth</span></div>
-  <p class="sub">Back-office report reconciled against the raw Smartico source in BigQuery. Period 1 May – 1 Aug 2026 · USD.</p>
-  <div class="kpis">
-    <div class="kpi"><div class="l">NGR reported (BO)</div><div class="v bad">$2,836</div><div class="f">understated by $7,744</div></div>
-    <div class="kpi"><div class="l">NGR correct</div><div class="v good">$10,580</div><div class="f">real GGR − bonus cost</div></div>
-    <div class="kpi"><div class="l">Real GGR</div><div class="v">$17,279</div><div class="f">bet_real − win_real</div></div>
-    <div class="kpi"><div class="l">Bonus cost</div><div class="v">$6,699</div><div class="f">wagering_completed</div></div>
-    <div class="kpi"><div class="l">Net cash</div><div class="v good">$14,832</div><div class="f">settled item excl.</div></div>
+  <div class="card console" id="console">
+    <div class="ln"><span class="t">[0.0s]</span> Praxis7 idle — waiting for a promo. Drop <span class="b">Summer Splash</span> to begin.</div>
   </div>
-  <div class="grid2">
-    <div class="panel"><h3>BO vs Postgres — where they diverge</h3><div class="ph">Reported (BO) against the raw Smartico source</div><div class="chartbox"><canvas id="cmp" role="img" aria-label="Bar chart, BO vs Postgres"></canvas></div></div>
-    <div class="panel"><h3>Money flow — to correct NGR &amp; P/L</h3><div class="ph">The formula the BO should apply</div>
-      <div class="flow">
-        <div class="frow"><span>Real GGR</span><span class="n">$17,279</span></div>
-        <div class="frow"><span>− Bonus cost</span><span class="n bad">−$6,699</span></div>
-        <div class="frow tot"><span><b>= NGR</b> <small>(no withdrawals)</small></span><span class="n good">$10,580</span></div>
-        <div class="frow"><span>− Affiliate <small>(iGS, real rates)</small></span><span class="n">iGS</span></div>
-        <div class="frow"><span>− Platform fee <small>(8% real GGR)</small></span><span class="n bad">−$1,382</span></div>
-        <div class="frow"><span>− Provider / PSP fees <small>(pending)</small></span><span class="n warn">TBD</span></div>
-        <div class="frow tot"><span><b>= Net P/L</b></span><span class="n">NGR − opex</span></div>
-      </div>
-    </div>
-  </div>
-  <div class="panel" style="margin-top:15px"><h3>Discrepancy register</h3><div class="ph">10 issues · owner &amp; status</div>
-    <table><thead><tr><th style="width:24px">#</th><th>Issue</th><th>Is now</th><th>Should be</th><th>Owner</th><th>Status</th></tr></thead><tbody id="rows"></tbody></table>
-  </div>
-  <div class="call"><i>!</i><div style="font-size:13px;line-height:1.6">
-    <b>Root cause:</b> withdrawals are being subtracted inside NGR. Removing them takes NGR from <b class="bad">$2,836</b> to <b class="good">$10,580</b>.
-    <br/><b>Settled item:</b> tx <b>2752</b> · user <b>3200568534</b> · $3,312 USDT — a manual balance adjustment settled by TSH, double-counted in the BO. Zero it on both sides.
-  </div></div>
-</section>
 
-<!-- AGENTS -->
-<section class="view" id="agents">
-  <div class="shead"><h2>AI action agents</h2><span class="k">// operator work, automated with guardrails</span></div>
-  <p class="sub">Every agent emits a typed ActionRequest, passes deterministic guardrails, and — for anything that moves money — waits for maker-checker approval before it touches production.</p>
-  <div class="agrid">
-    <div class="agent reveal">
-      <div class="top"><div class="av" style="background:linear-gradient(135deg,#3a1420,#22101c)">🎁</div><div><h3>Bonus agent</h3><div class="role">controls the back office</div></div></div>
-      <p>Reads player state, decides eligibility, and grants the right bonus through the back-office API — the same offer authored in the Bonus Builder.</p>
-      <div class="pipe"><span class="node">signal</span><span class="arr">→</span><span class="node">eligibility</span><span class="arr">→</span><span class="node">ActionRequest</span><span class="arr">→</span><span class="node">guardrails</span><span class="arr">→</span><span class="node">BO grant</span></div>
-      <div class="guard"><span class="gtag">idempotent</span><span class="gtag">rate-limited</span><span class="gtag">maker-checker</span><span class="gtag">audit log</span></div>
-    </div>
-    <div class="agent reveal">
-      <div class="top"><div class="av" style="background:linear-gradient(135deg,#0e2a33,#0d1420)">🧭</div><div><h3>Journey agent</h3><div class="role">feeds Smartico</div></div></div>
-      <p>Turns live balances into events and drives retention journeys — e.g. a low-balance rescue bonus, fired the moment a player's balance drops below €5.</p>
-      <div class="rule"><span class="kw">WHEN</span> balance_as_event<br/><span class="kw">IF</span> deposits <span class="v">≥ 2</span> <span class="m">AND</span> withdrawals <span class="v">= 0</span> <span class="m">AND</span> balance <span class="v">&lt; €5</span><br/><span class="kw">THEN</span> grant retention_bonus</div>
-    </div>
+  <div class="foot">
+    <a class="link" href="./site.html">See the full platform → Casinos, built like a factory</a>
+    <div class="wm">demo · confidential</div>
   </div>
-</section>
-
 </div>
 
-<div class="foot"><b>TheStakeHouse · Praxis7</b> — interactive operations demo · illustrative figures from Smartico BigQuery &amp; planning estimates · not a shipped product</div>
-<div class="wmtag">demo — confidential</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-// ---- tabs ----
-function show(v){
-  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x.dataset.v===v));
-  document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));
-  const el=document.getElementById(v); el.classList.add('on');
-  window.scrollTo({top:0,behavior:'smooth'});
-  revealIn(el);
-  if(v==='finance') drawChart();
-}
-document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>show(t.dataset.v)));
-document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.go)));
-
-// ---- count-up ----
-function countUp(el){
-  const target=+el.dataset.count, pre=el.dataset.prefix||'', suf=el.dataset.suffix||'';
-  let start=0, t0=null, dur=1100;
-  function step(ts){ if(!t0)t0=ts; const p=Math.min((ts-t0)/dur,1); const ease=1-Math.pow(1-p,3);
-    const val=Math.round(target*ease); el.innerHTML=pre+val.toLocaleString('en-US')+suf; if(p<1)requestAnimationFrame(step); }
-  requestAnimationFrame(step);
-}
-document.querySelectorAll('[data-count]').forEach(countUp);
-
-// ---- reveal on scroll ----
-const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.15});
-function revealIn(scope){(scope||document).querySelectorAll('.reveal').forEach(el=>io.observe(el));}
-revealIn(document);
-
-// ---- discrepancy rows ----
-const ISSUES=[
- [1,"Withdrawals inside NGR","NGR $2,836","real GGR − bonus = $10,580","BO","crit","Root cause"],
- [2,"Settled tx 2752 as withdrawal","double-counted","zeroed → $0","BO","hi","Fix"],
- ["2B","Settled tx 2752 as deposit","counted twice","zeroed → $0","BO","hi","Fix"],
- [3,"Net P/L = NGR","no opex deducted","NGR − opex","BO / iGS","hi","Fix"],
- [5,"Affiliate flat 30%","$6,224 in BO","$0 in BO; iGS real rates","iGS","hi","Fix"],
- [6,"Deposits overstated","+$5,825","reconcile","BO+PG","mid","Investigate"],
- ["6B","MBAs as deposits/withdrawals","internal transfers booked","exclude from dep/wd/NGR","BO","hi","Fix"],
- [7,"Test accounts in financials","IDs 3,8,22,23 + petrov","excluded","PG/BO","mid","Fix"],
- [8,"Withdrawals feed unstable","totals shift","confirm freshness","PG","mid","Verify"],
- [9,"Legit €950 withdrawal","dragged into NGR","out of NGR","BO","ok","Not an issue"],
+const AGENTS = [
+  {id:'build',   name:'Praxis Build',   role:'AI Creative Agent',     work:'generating 40 localized banner + reel variants…', done:'40 creatives rendered · EN/DE/FR/FI'},
+  {id:'launch',  name:'Praxis Launch',  role:'AI PAM Agent',          work:'configuring bonus “50% reload ≤ €200, 72h”…',    done:'bonus + campaign live in back office'},
+  {id:'engage',  name:'Praxis Engage',  role:'AI CRM Agent',          work:'building journey — email · SMS · push…',          done:'journey scheduled to 4,812 eligible players'},
+  {id:'stream',  name:'Praxis Stream',  role:'AI Data Agent',         work:'wiring event pipeline into BigQuery…',            done:'real-time deposit / GGR stream online'},
+  {id:'sense',   name:'Praxis Sense',   role:'AI Insight Agent',      work:'forecasting uplift + risk guardrails…',           done:'projected +18% reload conversion · risk OK'},
+  {id:'connect', name:'Praxis Connect', role:'AI Integrations Agent', work:'syncing PSP + affiliate postbacks…',              done:'6 integrations synced'},
+  {id:'ledger',  name:'Praxis Ledger',  role:'AI Finance Agent',      work:'arming bonus-cost + reconciliation…',             done:'liability tracked · P&L reconciled live'},
 ];
-const tb=document.getElementById('rows');
-ISSUES.forEach(r=>{const tr=document.createElement('tr');
-  tr.innerHTML=`<td style="color:var(--mut);font-weight:700">${r[0]}</td><td style="font-weight:600">${r[1]}</td><td style="color:var(--mut)">${r[2]}</td><td>${r[3]}</td><td class="own">${r[4]}</td><td><span class="st ${r[5]}">${r[6]}</span></td>`;
-  tb.appendChild(tr);});
 
-// ---- chart (lazy) ----
-let chart=null;
-function drawChart(){ if(chart||!window.Chart) return; const el=document.getElementById('cmp'); if(!el) return;
-  chart=new Chart(el,{type:'bar',
-    data:{labels:['NGR','Deposits','Withdrawals'],datasets:[
-      {label:'BO (reported)',data:[2836,21573,7755],backgroundColor:'#ec4899',borderRadius:5,maxBarThickness:32},
-      {label:'Postgres (source)',data:[10580,15748,4442],backgroundColor:'#22d3ee',borderRadius:5,maxBarThickness:32}]},
-    options:{responsive:true,maintainAspectRatio:false,animation:{duration:900},
-      plugins:{legend:{labels:{color:'#b6a2b5',boxWidth:12,font:{size:12}}}},
-      scales:{x:{ticks:{color:'#b6a2b5'},grid:{display:false}},
-        y:{ticks:{color:'#7d6a7f',callback:v=>'$'+(v/1000)+'k'},grid:{color:'#1c1226'}}}}});
+const agentsEl = document.getElementById('agents');
+const consoleEl = document.getElementById('console');
+const dropBtn = document.getElementById('drop');
+const elapsedEl = document.getElementById('elapsed');
+const hintEl = document.getElementById('hint');
+
+AGENTS.forEach(a=>{
+  const el = document.createElement('div');
+  el.className='card agent'; el.id='ag-'+a.id;
+  el.innerHTML =
+    '<div class="row"><div class="name"><span class="dot"></span>'+a.name+'</div><div class="st">idle</div></div>'+
+    '<div class="role">'+a.role+'</div>'+
+    '<div class="msg"></div>'+
+    '<div class="bar"></div>';
+  agentsEl.appendChild(el);
+});
+
+function log(t, html){
+  const d=document.createElement('div');
+  d.className='ln';
+  d.innerHTML='<span class="t">['+t.toFixed(1)+'s]</span> '+html;
+  consoleEl.appendChild(d);
+  consoleEl.scrollTop=consoleEl.scrollHeight;
 }
 
-// ---- factory switcher ----
-const MK=[
- {n:'RoyalStake',l:'R',acc:'#ec4899',mkt:'Ireland',cur:'EUR',lic:'MGA',rail:'Cards · Apple Pay',kick:'Welcome offer',big:'100% up to €500',small:'+ 100 Free Spins · 35× wagering'},
- {n:'NordicSpin',l:'N',acc:'#22d3ee',mkt:'Finland',cur:'EUR',lic:'MGA',rail:'Trustly · Cards',kick:'New player',big:'200 Free Spins',small:'on first deposit · 30× wagering'},
- {n:'AurumBet',l:'A',acc:'#fbbf24',mkt:'Canada (ON)',cur:'CAD',lic:'AGCO',rail:'Interac · Cards',kick:'Sign-up bonus',big:'C$750 match',small:'over 3 deposits · 40× wagering'},
- {n:'VerdePlay',l:'V',acc:'#34d399',mkt:'Brazil',cur:'BRL',lic:'SPA/Bet',rail:'Pix · Cards',kick:'Bônus de boas-vindas',big:'R$500 + 50 giros',small:'depósito mínimo R$40 · 35×'},
-];
-let mi=0; const $=id=>document.getElementById(id);
-function renderMk(k){ $('casino').style.setProperty('--acc',k.acc);
-  $('clogo').textContent=k.l; $('cname').textContent=k.n; $('pkick').textContent=k.kick; $('pbig').textContent=k.big; $('psmall').textContent=k.small;
-  $('cmkt').textContent=k.mkt; $('ccur').textContent=k.cur; $('clic').textContent=k.lic; $('crail').textContent=k.rail;
-  document.querySelectorAll('.mbtn').forEach((b,j)=>{b.classList.toggle('on',j===mi); b.style.setProperty('--acc',MK[j].acc);});
+let running=false, timer=null, t0=0;
+
+function tick(){
+  const e=(performance.now()-t0)/1000;
+  elapsedEl.textContent=e.toFixed(1)+'s';
 }
-const mwrap=$('markets');
-MK.forEach((k,j)=>{const b=document.createElement('div');b.className='mbtn';b.style.setProperty('--acc',k.acc);
-  b.innerHTML=`<span class="sw" style="background:${k.acc}"></span>${k.n}`;
-  b.onclick=()=>{mi=j;renderMk(k);}; mwrap.appendChild(b);});
-renderMk(MK[0]);
-let mauto=setInterval(()=>{mi=(mi+1)%MK.length;renderMk(MK[mi]);},3200);
-mwrap.addEventListener('click',()=>clearInterval(mauto),{once:true});
+
+function reset(){
+  AGENTS.forEach(a=>{
+    const el=document.getElementById('ag-'+a.id);
+    el.className='card agent';
+    el.querySelector('.st').textContent='idle';
+    el.querySelector('.msg').textContent='';
+    el.querySelector('.bar').style.width='0';
+  });
+  consoleEl.innerHTML='';
+  elapsedEl.textContent='0.0s';
+}
+
+function run(){
+  if(running) return;
+  running=true; reset();
+  dropBtn.disabled=true; dropBtn.textContent='● Running…';
+  hintEl.textContent='Praxis7 received the promo and is fanning it out across the stack.';
+  t0=performance.now();
+  timer=setInterval(tick,60);
+
+  log(0.0, 'Praxis7 received promo <span class="hl">Summer Splash</span> from Figma webhook');
+
+  let at=0.35;                 // schedule cursor (seconds)
+  const step=1.02;            // per-agent cadence
+  const workLen=0.72;        // working duration
+
+  AGENTS.forEach((a,i)=>{
+    const start=at, finish=at+workLen;
+    const el=document.getElementById('ag-'+a.id);
+    // start working
+    setTimeout(()=>{
+      el.classList.add('working','show');
+      el.querySelector('.st').textContent='working';
+      el.querySelector('.msg').textContent=a.work;
+      el.querySelector('.bar').style.width='100%';
+      log(start, '<span class="b">'+a.name+'</span> · '+a.role+' — '+a.work.replace(/…$/,''));
+    }, start*1000);
+    // done
+    setTimeout(()=>{
+      el.classList.remove('working'); el.classList.add('done');
+      el.querySelector('.st').textContent='done';
+      el.querySelector('.msg').textContent=a.done;
+      log(finish, '<span class="b">'+a.name+'</span> <span class="ok">done</span> — '+a.done);
+    }, finish*1000);
+    at+=step;
+  });
+
+  const total=at-step+workLen+0.2;
+  setTimeout(()=>{
+    clearInterval(timer); tick();
+    const secs=((performance.now()-t0)/1000).toFixed(1);
+    log(parseFloat(secs), '<span class="ok">✔ done.</span> one promo → <span class="b">seven jobs</span> in '+secs+'s. you did one thing.');
+    dropBtn.disabled=false; dropBtn.textContent='▶ Run it again';
+    hintEl.textContent='That is the magic moment: one input, the whole operator stack moves.';
+    running=false;
+  }, total*1000);
+}
+
+dropBtn.addEventListener('click', run);
 </script>
 </body>
 </html>
