@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TheStakeHouse — Finance Reconciliation Console</title>
+<style>
+  :root{
+    --bg:#0a0e1a; --bg2:#0f1729; --card:#111a2e; --card2:#0c1320;
+    --line:#1e2b45; --ink:#e8edf7; --mut:#8ea0bd; --dim:#5f6f8a;
+    --mag:#ec4899; --magd:#9b1c6b; --cy:#22d3ee; --pur:#a855f7;
+    --grn:#34d399; --red:#f87171; --amb:#fbbf24;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1200px 600px at 15% -10%,#15092010,transparent),linear-gradient(180deg,#0a0e1a,#0b0910);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:26px 26px 60px}
+  .top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:6px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--mag),var(--pur));display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:15px;letter-spacing:.5px}
+  h1{font-size:19px;margin:0;font-weight:700;letter-spacing:.2px}
+  .sub{color:var(--mut);font-size:12.5px;margin-top:2px}
+  .pills{display:flex;gap:8px;flex-wrap:wrap}
+  .pill{font-size:11.5px;color:var(--mut);border:1px solid var(--line);background:var(--card2);padding:6px 11px;border-radius:20px}
+  .pill b{color:var(--ink);font-weight:600}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:22px 0}
+  .kpi{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:14px;padding:16px 17px;position:relative;overflow:hidden}
+  .kpi::after{content:'';position:absolute;inset:0 0 auto 0;height:2px;background:linear-gradient(90deg,var(--mag),var(--pur),var(--cy))}
+  .kpi .lab{font-size:11.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+  .kpi .val{font-size:26px;font-weight:800;margin-top:7px;letter-spacing:.3px}
+  .kpi .foot{font-size:12px;margin-top:6px;color:var(--dim)}
+  .bad{color:var(--red)} .good{color:var(--grn)} .warn{color:var(--amb)}
+  .grid2{display:grid;grid-template-columns:1.15fr 1fr;gap:16px;margin-bottom:16px}
+  @media(max-width:860px){.grid2{grid-template-columns:1fr}}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .panel h2{font-size:14px;margin:0 0 3px;font-weight:700}
+  .panel .ph{font-size:12px;color:var(--mut);margin-bottom:14px}
+  .flow{display:flex;flex-direction:column;gap:9px}
+  .frow{display:flex;align-items:center;justify-content:space-between;font-size:13.5px;padding:9px 12px;border-radius:9px;background:var(--card2);border:1px solid var(--line)}
+  .frow.tot{background:linear-gradient(90deg,#1a0f2a,#0c1320);border-color:#3b2a6b}
+  .frow .n{font-weight:700}
+  .frow small{color:var(--mut)}
+  table{width:100%;border-collapse:collapse;font-size:12.7px}
+  th{text-align:left;color:var(--mut);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px;padding:8px 9px;border-bottom:1px solid var(--line)}
+  td{padding:9px 9px;border-bottom:1px solid #16223a;vertical-align:top}
+  tr:hover td{background:#0e1728}
+  .st{font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap}
+  .st.crit{background:#3a1116;color:#fca5a5} .st.hi{background:#3a2a10;color:#fcd34d} .st.mid{background:#10263a;color:#7dd3fc} .st.ok{background:#0f2c22;color:#6ee7b7}
+  .own{font-size:11px;color:var(--cy)}
+  .call{margin-top:16px;border:1px solid #6b2a52;background:linear-gradient(90deg,#20101c,#0c1320);border-radius:14px;padding:15px 18px;display:flex;gap:14px;align-items:flex-start}
+  .call i{width:32px;height:32px;border-radius:9px;background:#3a1116;color:#fca5a5;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:800;flex:none}
+  .call b{color:#f9a8d4}
+  .foot2{margin-top:22px;color:var(--dim);font-size:11.5px;text-align:center}
+  .chartbox{position:relative;height:230px}
+  /* watermark */
+  .wm{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden}
+  .wm span{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-30deg);font-size:96px;font-weight:800;letter-spacing:8px;color:rgba(236,72,153,.06);white-space:nowrap;text-transform:uppercase}
+  .wmtag{position:fixed;bottom:12px;right:14px;z-index:9999;font-size:10.5px;color:var(--dim);border:1px solid var(--line);background:rgba(12,19,32,.85);padding:4px 10px;border-radius:20px;pointer-events:none}
+</style>
+</head>
+<body>
+<div class="wm"><span>Demo · TheStakeHouse</span></div>
+<div class="wmtag">Demo — illustrative figures · confidential</div>
+<div class="wrap">
+  <div class="top">
+    <div class="brand">
+      <div class="logo">TSH</div>
+      <div>
+        <h1>Finance Reconciliation Console</h1>
+        <div class="sub">BO ↔ Postgres (Smartico) · demo</div>
+      </div>
+    </div>
+    <div class="pills">
+      <div class="pill">Period <b>1 May – 1 Aug 2026</b></div>
+      <div class="pill">Currency <b>USD</b></div>
+      <div class="pill">Source <b>BigQuery · smartico</b></div>
+    </div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="lab">NGR — reported (BO)</div><div class="val bad">$2,836</div><div class="foot">understated by <b class="bad">$7,744</b></div></div>
+    <div class="kpi"><div class="lab">NGR — correct</div><div class="val good">$10,580</div><div class="foot">real GGR − bonus cost</div></div>
+    <div class="kpi"><div class="lab">Real GGR</div><div class="val">$17,279</div><div class="foot">bet_real − win_real</div></div>
+    <div class="kpi"><div class="lab">Bonus cost</div><div class="val">$6,699</div><div class="foot">wagering_completed</div></div>
+    <div class="kpi"><div class="lab">Net cash position</div><div class="val good">$14,832</div><div class="foot">settled withdrawal excl.</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="panel">
+      <h2>BO vs Postgres — where they diverge</h2>
+      <div class="ph">Reported (BO) against the raw Smartico source</div>
+      <div class="chartbox"><canvas id="cmp" role="img" aria-label="Bar chart comparing BO and Postgres for NGR, deposits and withdrawals"></canvas></div>
+    </div>
+    <div class="panel">
+      <h2>Money flow — to the correct NGR &amp; P/L</h2>
+      <div class="ph">The formula the BO should apply</div>
+      <div class="flow">
+        <div class="frow"><span>Real GGR</span><span class="n">$17,279</span></div>
+        <div class="frow"><span>− Bonus cost</span><span class="n bad">−$6,699</span></div>
+        <div class="frow tot"><span><b>= NGR</b> <small>(no withdrawals)</small></span><span class="n good">$10,580</span></div>
+        <div class="frow"><span>− Affiliate <small>(iGS, real rates)</small></span><span class="n">iGS</span></div>
+        <div class="frow"><span>− Platform fee <small>(8% real GGR)</small></span><span class="n bad">−$1,382</span></div>
+        <div class="frow"><span>− Provider / PSP fees <small>(pending)</small></span><span class="n warn">TBD</span></div>
+        <div class="frow tot"><span><b>= Net P/L</b></span><span class="n">NGR − opex</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Discrepancy register</h2>
+    <div class="ph">10 issues · owner &amp; status</div>
+    <table>
+      <thead><tr><th style="width:26px">#</th><th>Issue</th><th>Is now</th><th>Should be</th><th>Owner</th><th>Status</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+
+  <div class="call">
+    <i>!</i>
+    <div style="font-size:13px;line-height:1.6">
+      <b>Root cause:</b> withdrawals are being subtracted inside NGR. Removing them takes NGR from <b class="bad">$2,836</b> to <b class="good">$10,580</b>.
+      <br/><b>Settled item:</b> tx <b>2752</b> · user <b>3200568534</b> · $3,312 USDT — a manual balance adjustment settled by TSH, double-counted in the BO (deposit + withdrawal). Zero it on both sides.
+    </div>
+  </div>
+
+  <div class="foot2">TheStakeHouse — operator console demo · figures from Smartico BigQuery, planning estimates · not a shipped product</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const ISSUES=[
+ [1,"Withdrawals inside NGR","NGR $2,836","real GGR − bonus = $10,580","BO","crit","Root cause"],
+ [2,"Settled tx 2752 as withdrawal","double-counted","zeroed → $0","BO","hi","Fix"],
+ ["2B","Settled tx 2752 as deposit","counted twice","zeroed → $0","BO","hi","Fix"],
+ [3,"Net P/L = NGR","no opex deducted","NGR − opex","BO / iGS","hi","Fix"],
+ [5,"Affiliate flat 30%","$6,224 in BO","$0 in BO; iGS real rates","iGS","hi","Fix"],
+ [6,"Deposits overstated","+$5,825","reconcile","BO+PG","mid","Investigate"],
+ ["6B","MBAs as deposits/withdrawals","internal transfers booked","exclude from dep/wd/NGR","BO","hi","Fix"],
+ [7,"Test accounts in financials","IDs 3,8,22,23 + petrov","excluded","PG/BO","mid","Fix"],
+ [8,"Withdrawals feed unstable","totals shift","confirm freshness","PG","mid","Verify"],
+ [9,"Legit €950 withdrawal","dragged into NGR","out of NGR","BO","ok","Not an issue"],
+];
+const tb=document.getElementById('rows');
+ISSUES.forEach(r=>{
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td style="color:var(--mut);font-weight:700">${r[0]}</td><td style="font-weight:600">${r[1]}</td><td style="color:var(--mut)">${r[2]}</td><td>${r[3]}</td><td class="own">${r[4]}</td><td><span class="st ${r[5]}">${r[6]}</span></td>`;
+  tb.appendChild(tr);
+});
+new Chart(document.getElementById('cmp'),{
+  type:'bar',
+  data:{labels:['NGR','Deposits','Withdrawals'],datasets:[
+    {label:'BO (reported)',data:[2836,21573,7755],backgroundColor:'#ec4899',borderRadius:5,maxBarThickness:34},
+    {label:'Postgres (source)',data:[10580,15748,4442],backgroundColor:'#22d3ee',borderRadius:5,maxBarThickness:34},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#8ea0bd',boxWidth:12,font:{size:12}}}},
+    scales:{
+      x:{ticks:{color:'#8ea0bd'},grid:{display:false}},
+      y:{ticks:{color:'#5f6f8a',callback:v=>'$'+(v/1000)+'k'},grid:{color:'#16223a'}}
+    }}
+});
+</script>
+</body>
+</html>
