@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TheStakeHouse · Brand Factory</title>
+<style>
+:root{
+  --bg:#0a0710; --bg2:#0d0912; --panel:#150d1c; --panel2:#110a17; --raise:#1b1124;
+  --line:#2a1b34; --line2:#39243f;
+  --ink:#f4ecf3; --mut:#b6a2b5; --dim:#7d6a7f;
+  --mag:#ec4899; --mag2:#f0308f; --pur:#a855f7; --cy:#22d3ee; --teal:#2dd4bf; --mint:#34d399; --gold:#fbbf24;
+  --mono:'SF Mono','SFMono-Regular','Courier New',monospace;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:
+  radial-gradient(1100px 520px at 12% -8%, rgba(168,85,247,.12), transparent 60%),
+  radial-gradient(900px 500px at 100% 0%, rgba(34,211,238,.08), transparent 55%),
+  linear-gradient(180deg,var(--bg),#080509);
+  color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.5}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(10,7,16,.72);border-bottom:1px solid var(--line)}
+.nav .row{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:700;letter-spacing:.3px}
+.logo{width:32px;height:32px;border-radius:9px;background:conic-gradient(from 200deg,var(--mag),var(--pur),var(--cy),var(--mag));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff}
+.brand small{display:block;font-size:10px;color:var(--dim);font-weight:500;letter-spacing:2px;font-family:var(--mono)}
+.navlink{margin-left:auto;font-size:12.5px;color:var(--mut);border:1px solid var(--line2);padding:7px 13px;border-radius:9px}
+.navlink:hover{color:var(--ink);background:var(--panel)}
+.hero{padding:48px 0 26px}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:2px;color:var(--teal);text-transform:uppercase}
+h1{font-size:46px;line-height:1.06;margin:14px 0 12px;font-weight:800;letter-spacing:-.6px;
+  background:linear-gradient(120deg,#fff 18%,#ffc4e6 52%,#8ad9ff 88%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{font-size:16.5px;color:var(--mut);max-width:660px}
+@media(max-width:720px){h1{font-size:33px}}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:26px}
+@media(max-width:720px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:13px;padding:15px 16px}
+.stat .n{font-size:24px;font-weight:800;font-family:var(--mono);letter-spacing:-.5px}
+.stat .l{font-size:11.5px;color:var(--dim);margin-top:4px}
+.c{color:var(--cy)}.m{color:var(--mag)}.g{color:var(--mint)}.p{color:var(--pur)}.gold{color:var(--gold)}
+.shead{display:flex;align-items:baseline;gap:12px;margin:44px 0 4px}
+.shead h2{font-size:23px;margin:0;font-weight:750;letter-spacing:-.3px}
+.shead .k{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:1px}
+.sub{color:var(--mut);font-size:14px;margin:0 0 20px;max-width:640px}
+/* market switcher */
+.markets{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.mbtn{font-size:13px;font-family:var(--mono);color:var(--mut);border:1px solid var(--line2);background:var(--panel2);padding:8px 14px;border-radius:9px;cursor:pointer;display:flex;align-items:center;gap:8px}
+.mbtn .sw{width:11px;height:11px;border-radius:3px}
+.mbtn.on{color:var(--ink);background:var(--raise)}
+.mbtn.on{border-color:var(--acc)}
+.casino{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:.25s}
+.casino .bar{height:52px;display:flex;align-items:center;gap:12px;padding:0 18px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,color-mix(in srgb,var(--acc) 22%,transparent),transparent)}
+.casino .clogo{width:26px;height:26px;border-radius:7px;background:var(--acc);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#0a0710}
+.casino .cname{font-weight:700;font-size:15px}
+.casino .cnav{margin-left:auto;display:flex;gap:16px;font-size:12px;color:var(--mut)}
+.casino .body{padding:22px 20px;display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
+@media(max-width:720px){.casino .body{grid-template-columns:1fr}}
+.promo{border-radius:14px;padding:22px;background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 85%,#000),color-mix(in srgb,var(--acc) 35%,#12081a));position:relative;overflow:hidden;min-height:150px;display:flex;flex-direction:column;justify-content:center}
+.promo .kick{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.8)}
+.promo .big{font-size:30px;font-weight:800;color:#fff;margin:6px 0 2px;letter-spacing:-.5px}
+.promo .small{font-size:13px;color:rgba(255,255,255,.85)}
+.gtiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gtile{background:var(--panel2);border:1px solid var(--line2);border-radius:11px;height:66px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--mut);font-family:var(--mono)}
+.gtile b{color:var(--acc)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.chip{font-size:11px;font-family:var(--mono);color:var(--mut);border:1px solid var(--line2);border-radius:20px;padding:4px 10px}
+.chip b{color:var(--acc)}
+/* pipeline */
+.pipe{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:6px}
+@media(max-width:720px){.pipe{grid-template-columns:1fr 1fr}}
+.pstep{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:13px;padding:15px;position:relative}
+.pstep .ic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;background:var(--raise);border:1px solid var(--line2);margin-bottom:10px}
+.pstep h4{margin:0 0 4px;font-size:13.5px}
+.pstep p{margin:0;font-size:12px;color:var(--mut)}
+.pstep .num{position:absolute;top:12px;right:13px;font-family:var(--mono);font-size:11px;color:var(--dim)}
+/* timeline */
+.tl{display:flex;flex-direction:column;gap:2px;margin-top:6px}
+.trow{display:grid;grid-template-columns:80px 1fr;gap:16px;padding:12px 0;border-bottom:1px solid var(--line)}
+.trow .day{font-family:var(--mono);font-size:12px;color:var(--teal)}
+.trow .task{font-size:13.5px}
+.trow .task b{color:var(--ink)}
+.trow .task span{color:var(--mut)}
+.foot{border-top:1px solid var(--line);color:var(--dim);font-size:11.5px;text-align:center;padding:26px 0 34px;margin-top:44px}
+.foot b{color:var(--mut)}
+.wmtag{position:fixed;bottom:12px;right:13px;z-index:60;font-size:10px;font-family:var(--mono);color:var(--dim);border:1px solid var(--line2);background:rgba(13,9,18,.85);padding:4px 10px;border-radius:20px;pointer-events:none}
+</style>
+</head>
+<body>
+<div class="nav"><div class="wrap"><div class="row">
+  <div class="brand"><div class="logo">S7</div><div>TheStakeHouse<small>PRAXIS7 · BRAND FACTORY</small></div></div>
+  <a class="navlink" href="./console.html">Open ops console →</a>
+</div></div></div>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="eyebrow">The brand factory</div>
+    <h1>One platform. A new casino every week.</h1>
+    <p class="lede">Design a theme in Figma, pipe it into the CMS, and the factory stamps out a fully-branded, fully-integrated casino for the next market — same engine underneath, its own skin, its own siloed data.</p>
+    <div class="stats">
+      <div class="stat"><div class="n c">&lt; 1 wk</div><div class="l">brand → live in-market</div></div>
+      <div class="stat"><div class="n m">1</div><div class="l">platform, N brands</div></div>
+      <div class="stat"><div class="n g">100%</div><div class="l">siloed player data</div></div>
+      <div class="stat"><div class="n p">Figma→CMS</div><div class="l">theming pipeline</div></div>
+    </div>
+  </div>
+
+  <div class="shead"><h2>Same engine, any skin</h2><span class="k">// pick a market</span></div>
+  <p class="sub">Every brand below runs on one shared platform. Switch markets to see the factory re-skin the whole product — colours, name, offer, games — in seconds.</p>
+  <div class="markets" id="markets"></div>
+  <div class="casino" id="casino" style="--acc:#ec4899">
+    <div class="bar"><div class="clogo" id="clogo">R</div><div class="cname" id="cname">RoyalStake</div>
+      <div class="cnav"><span>Casino</span><span>Live</span><span>Promotions</span><span>VIP</span></div></div>
+    <div class="body">
+      <div class="promo" id="promo">
+        <div class="kick" id="pkick">Welcome offer</div>
+        <div class="big" id="pbig">100% up to €500</div>
+        <div class="small" id="psmall">+ 100 Free Spins · 35× wagering</div>
+      </div>
+      <div>
+        <div class="gtiles">
+          <div class="gtile">Big Bass <b>Bonanza</b></div>
+          <div class="gtile">Gates of <b>Olympus</b></div>
+          <div class="gtile">Sweet <b>Bonanza</b></div>
+          <div class="gtile">Live <b>Roulette</b></div>
+        </div>
+        <div class="chips">
+          <div class="chip">market <b id="cmkt">Ireland</b></div>
+          <div class="chip">currency <b id="ccur">EUR</b></div>
+          <div class="chip">licence <b id="clic">MGA</b></div>
+          <div class="chip">rails <b id="crail">Cards · Apple Pay</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="shead"><h2>How the factory works</h2><span class="k">// design once, deploy anywhere</span></div>
+  <p class="sub">The whole brand is data. A theme is a set of tokens; the platform reads them at build time and produces a live, integrated casino.</p>
+  <div class="pipe">
+    <div class="pstep"><span class="num">01</span><div class="ic">🎨</div><h4>Figma theme</h4><p>Colours, logo, type and imagery defined as design tokens.</p></div>
+    <div class="pstep"><span class="num">02</span><div class="ic">🔗</div><h4>CMS sync</h4><p>Tokens flow straight into the CMS — no hand-coding per brand.</p></div>
+    <div class="pstep"><span class="num">03</span><div class="ic">🏗️</div><h4>Brand build</h4><p>Platform stamps out the front end and wires the back office.</p></div>
+    <div class="pstep"><span class="num">04</span><div class="ic">🗄️</div><h4>Data silo</h4><p>Dedicated, isolated player + finance data per brand.</p></div>
+    <div class="pstep"><span class="num">05</span><div class="ic">🚀</div><h4>Go live</h4><p>Payments, bonuses and Smartico journeys active on day one.</p></div>
+  </div>
+
+  <div class="shead"><h2>A launch, day by day</h2><span class="k">// under a week</span></div>
+  <div class="tl">
+    <div class="trow"><div class="day">Day 1</div><div class="task"><b>Theme &amp; market setup.</b> <span>Brand tokens in Figma, licence + currency + PSP rails selected.</span></div></div>
+    <div class="trow"><div class="day">Day 2</div><div class="task"><b>Brand build.</b> <span>Front end stamped from the theme; back office and game providers wired.</span></div></div>
+    <div class="trow"><div class="day">Day 3</div><div class="task"><b>Bonus &amp; CRM.</b> <span>Welcome offer authored in the Bonus Builder; Smartico journeys switched on.</span></div></div>
+    <div class="trow"><div class="day">Day 4</div><div class="task"><b>Payments &amp; QA.</b> <span>Deposits, withdrawals and KYC tested end-to-end on the siloed stack.</span></div></div>
+    <div class="trow"><div class="day">Day 5</div><div class="task"><b>Go live.</b> <span>Brand in-market; finance reconciled from the first deposit.</span></div></div>
+  </div>
+</div>
+
+<div class="foot"><b>TheStakeHouse · Praxis7</b> — brand factory demo · illustrative · not a shipped product · <a href="./console.html" style="color:var(--mut);text-decoration:underline">ops console</a></div>
+<div class="wmtag">demo — confidential</div>
+
+<script>
+const MK=[
+ {n:'RoyalStake',l:'R',acc:'#ec4899',mkt:'Ireland',cur:'EUR',lic:'MGA',rail:'Cards · Apple Pay',kick:'Welcome offer',big:'100% up to €500',small:'+ 100 Free Spins · 35× wagering'},
+ {n:'NordicSpin',l:'N',acc:'#22d3ee',mkt:'Finland',cur:'EUR',lic:'MGA',rail:'Trustly · Cards',kick:'New player',big:'200 Free Spins',small:'on first deposit · 30× wagering'},
+ {n:'AurumBet',l:'A',acc:'#fbbf24',mkt:'Canada (ON)',cur:'CAD',lic:'AGCO',rail:'Interac · Cards',kick:'Sign-up bonus',big:'C$750 match',small:'over 3 deposits · 40× wagering'},
+ {n:'VerdePlay',l:'V',acc:'#34d399',mkt:'Brazil',cur:'BRL',lic:'SPA/Bet',rail:'Pix · Cards',kick:'Bônus de boas-vindas',big:'R$500 + 50 giros',small:'depósito mínimo R$40 · 35×'},
+];
+let i=0;
+const $=id=>document.getElementById(id);
+function render(k){
+  const c=$('casino'); c.style.setProperty('--acc',k.acc);
+  $('clogo').textContent=k.l; $('cname').textContent=k.n;
+  $('pkick').textContent=k.kick; $('pbig').textContent=k.big; $('psmall').textContent=k.small;
+  $('cmkt').textContent=k.mkt; $('ccur').textContent=k.cur; $('clic').textContent=k.lic; $('crail').textContent=k.rail;
+  document.querySelectorAll('.mbtn').forEach((b,j)=>{b.classList.toggle('on',j===i); b.style.setProperty('--acc',MK[j].acc);});
+}
+const wrap=$('markets');
+MK.forEach((k,j)=>{const b=document.createElement('div');b.className='mbtn';b.style.setProperty('--acc',k.acc);
+  b.innerHTML=`<span class="sw" style="background:${k.acc}"></span>${k.n}`;
+  b.onclick=()=>{i=j;render(k);}; wrap.appendChild(b);});
+render(MK[0]);
+// gentle auto-rotate until user interacts
+let auto=setInterval(()=>{i=(i+1)%MK.length;render(MK[i]);},3200);
+wrap.addEventListener('click',()=>{clearInterval(auto);},{once:true});
+</script>
+</body>
+</html>
