@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Praxis7 — the build, in sequence</title>
+<meta name="description" content="What's live today, what we're building, and what's next — Praxis7, the AI operations layer for iGaming operators."/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Praxis7 — the build, in sequence"/>
+<meta property="og:description" content="Four surfaces live today, the connector layer building, the AI agent layer next."/>
+<meta property="og:image" content="https://the-stakehouse.github.io/praxis7-demo/og-image.jpg"/>
+<meta property="og:url" content="https://the-stakehouse.github.io/praxis7-demo/build.html"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Praxis7 — the build, in sequence"/>
+<meta name="twitter:image" content="https://the-stakehouse.github.io/praxis7-demo/og-image.jpg"/>
+<style>
+:root{
+  --bg:#0b0710;--panel:#160f1d;--panel2:#1a1222;--line:rgba(236,72,153,.14);
+  --ink:#f4ecf3;--dim:#b6a2b5;--mut:#80707f;
+  --mint:#34d399;--cy:#22d3ee;--mag:#ec4899;--pur:#a855f7;
+  --mono:'SF Mono',ui-monospace,'JetBrains Mono',Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+body{min-height:100vh;background:
+  radial-gradient(900px 520px at 6% -8%,rgba(168,85,247,.15),transparent 60%),
+  radial-gradient(820px 480px at 98% 6%,rgba(236,72,153,.11),transparent 62%),
+  linear-gradient(180deg,#0b0710,#080509);background-attachment:fixed}
+.wrap{max-width:1240px;margin:0 auto;padding:26px 26px 60px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.brand{font-weight:800;letter-spacing:.14em;font-size:14px}
+.badge{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--mag);border:1px solid var(--line);border-radius:999px;padding:7px 15px;background:rgba(236,72,153,.05)}
+h1{font-size:clamp(26px,4.2vw,40px);line-height:1.08;font-weight:800;margin:34px 0 10px;letter-spacing:-.01em}
+h1 .g{background:linear-gradient(90deg,#ec4899,#f9a8d4,#a855f7);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{max-width:760px;color:var(--dim);font-size:15px;line-height:1.6;margin:0 0 22px}
+.ctrl{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:10px}
+.play{border:none;cursor:pointer;border-radius:11px;padding:12px 20px;font-weight:700;font-size:14.5px;color:#fff;background:linear-gradient(90deg,#ec4899,#a855f7);box-shadow:0 10px 30px -12px rgba(236,72,153,.6);transition:filter .2s,transform .1s}
+.play:hover{filter:brightness(1.08)}.play:active{transform:translateY(1px)}
+.legend{display:flex;gap:16px;font-family:var(--mono);font-size:12px;color:var(--dim);flex-wrap:wrap}
+.legend b{display:inline-flex;align-items:center;gap:7px;font-weight:400}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+/* progress track */
+.track{position:relative;height:4px;border-radius:4px;background:rgba(255,255,255,.06);margin:26px 0 8px;overflow:hidden}
+.fill{position:absolute;left:0;top:0;height:100%;width:0;background:linear-gradient(90deg,#34d399,#22d3ee,#ec4899);transition:width .1s linear}
+.phaselabels{display:grid;grid-template-columns:4fr 2fr 1.4fr;gap:14px;margin-bottom:16px}
+.pl{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.14em;opacity:.4;transition:opacity .4s}
+.pl.on{opacity:1}
+.pl.live{color:var(--mint)}.pl.build{color:var(--cy)}.pl.next{color:var(--mag)}
+/* columns */
+.cols{display:grid;grid-template-columns:4fr 2fr 1.4fr;gap:14px;align-items:start}
+@media(max-width:900px){.cols,.phaselabels{grid-template-columns:1fr}.phaselabels{display:none}}
+.col{display:flex;flex-direction:column;gap:14px}
+.colhead{display:none}
+@media(max-width:900px){.colhead{display:block;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.14em;margin-top:8px}
+ .colhead.live{color:var(--mint)}.colhead.build{color:var(--cy)}.colhead.next{color:var(--mag)}}
+.grid4{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:560px){.grid4{grid-template-columns:1fr}}
+.card{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:15px 16px;opacity:.32;transform:translateY(8px);transition:opacity .5s,transform .5s,border-color .5s,box-shadow .5s}
+.card.on{opacity:1;transform:none}
+.card .r{display:flex;align-items:center;gap:9px}
+.card .d{width:9px;height:9px;border-radius:50%;background:#4b3b52;flex:none;transition:background .4s,box-shadow .4s}
+.card .n{font-weight:700;font-size:15.5px}
+.card .s{font-family:var(--mono);font-size:12px;color:var(--mut);margin-top:9px;line-height:1.5}
+.card.big{padding:18px}
+.card.big .n{font-size:17px}
+.card.big .tag{font-family:var(--mono);font-size:13px;color:var(--mag);font-weight:600;margin-top:8px}
+.card.live.on{border-color:rgba(52,211,153,.4);box-shadow:0 16px 40px -22px rgba(52,211,153,.5)}
+.card.live.on .d{background:var(--mint);box-shadow:0 0 0 4px rgba(52,211,153,.15)}
+.card.build.on{border-color:rgba(34,211,238,.4);box-shadow:0 16px 40px -22px rgba(34,211,238,.45)}
+.card.build.on .d{background:var(--cy);box-shadow:0 0 0 4px rgba(34,211,238,.15)}
+.card.next.on{border-color:rgba(236,72,153,.42);box-shadow:0 18px 46px -20px rgba(236,72,153,.5)}
+.card.next.on .d{background:var(--mag);box-shadow:0 0 0 4px rgba(236,72,153,.15)}
+.foot{margin-top:26px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:16px}
+.foot .stack{font-family:var(--mono);font-size:12.5px;color:var(--mut)}
+.foot a{color:var(--cy);text-decoration:none;font-family:var(--mono);font-size:13px}
+.foot a:hover{text-decoration:underline}
+.wm{font-family:var(--mono);font-size:11px;color:var(--mut);border:1px solid var(--line);border-radius:999px;padding:6px 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="brand">THE STAKE HOUSE</div>
+    <div class="badge">PRAXIS7 · PRODUCT & BUILD SEQUENCE</div>
+  </div>
+
+  <h1>Praxis7 — the <span class="g">build</span>, in sequence.</h1>
+  <p class="sub">Four surfaces live today, the connector layer building, the AI agent layer next — one platform on top of any operator’s stack.</p>
+
+  <div class="ctrl">
+    <button class="play" id="play">▶ Play the build</button>
+    <div class="legend">
+      <b><span class="dot" style="background:#34d399"></span> Live today</b>
+      <b><span class="dot" style="background:#22d3ee"></span> Building</b>
+      <b><span class="dot" style="background:#ec4899"></span> Next</b>
+    </div>
+  </div>
+
+  <div class="track"><div class="fill" id="fill"></div></div>
+  <div class="phaselabels">
+    <div class="pl live" id="pl-live">LIVE TODAY</div>
+    <div class="pl build" id="pl-build">BUILDING</div>
+    <div class="pl next" id="pl-next">NEXT</div>
+  </div>
+
+  <div class="cols">
+    <div class="col">
+      <div class="colhead live">LIVE TODAY</div>
+      <div class="grid4">
+        <div class="card live" data-i="0"><div class="r"><span class="d"></span><span class="n">Data warehouse &amp; workflows</span></div><div class="s">BigQuery · ingestion · scheduling</div></div>
+        <div class="card live" data-i="1"><div class="r"><span class="d"></span><span class="n">Reconciliation &amp; liability</span></div><div class="s">cost stack · affiliate owed · P&amp;L</div></div>
+        <div class="card live" data-i="2"><div class="r"><span class="d"></span><span class="n">Analytics &amp; insights</span></div><div class="s">dashboards · KPIs · discrepancy register</div></div>
+        <div class="card live" data-i="3"><div class="r"><span class="d"></span><span class="n">Bonus / promo builder</span></div><div class="s">Bonus Terms Editor</div></div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="colhead build">BUILDING</div>
+      <div class="card build" data-i="4"><div class="r"><span class="d"></span><span class="n">Universal connectors</span></div><div class="s">any platform · CRM · affiliate</div></div>
+      <div class="card build" data-i="5"><div class="r"><span class="d"></span><span class="n">Multi-tenant onboarding</span></div><div class="s">operator by operator</div></div>
+    </div>
+    <div class="col">
+      <div class="colhead next">NEXT</div>
+      <div class="card next big" data-i="6"><div class="r"><span class="d"></span><span class="n">AI agent orchestration</span></div><div class="tag">one promo, seven jobs</div><div class="s">Seven agents fan out across the stack in real time — the differentiated platform the raise funds.</div></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="stack">Sits on top of any operator’s stack — Instasoft · SoftSwiss · Smartico · Optimove · iGS · Affilka</div>
+    <div style="display:flex;gap:14px;align-items:center">
+      <a href="./index.html">See the magic moment →</a>
+      <span class="wm">demo · confidential</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const cards=[...document.querySelectorAll('.card')];
+const fill=document.getElementById('fill');
+const play=document.getElementById('play');
+const pl={live:document.getElementById('pl-live'),build:document.getElementById('pl-build'),next:document.getElementById('pl-next')};
+const phaseOf=[ 'live','live','live','live','build','build','next' ];
+let running=false, timers=[];
+
+function reset(){
+  timers.forEach(clearTimeout); timers=[];
+  cards.forEach(c=>c.classList.remove('on'));
+  Object.values(pl).forEach(p=>p.classList.remove('on'));
+  fill.style.transition='none'; fill.style.width='0%';
+  void fill.offsetWidth; fill.style.transition='width .1s linear';
+}
+function run(){
+  if(running) reset();
+  running=true; play.textContent='● Building…';
+  const step=720, total=cards.length*step+400;
+  // progress fill
+  let t0=performance.now();
+  const tick=()=>{const e=performance.now()-t0; const pct=Math.min(100,(e/total)*100); fill.style.width=pct+'%'; if(pct<100&&running) requestAnimationFrame(tick);};
+  requestAnimationFrame(tick);
+  cards.forEach((c,i)=>{
+    timers.push(setTimeout(()=>{
+      c.classList.add('on');
+      pl[phaseOf[i]].classList.add('on');
+    }, 300+i*step));
+  });
+  timers.push(setTimeout(()=>{ running=false; play.textContent='▶ Replay the build'; }, total+300));
+}
+play.addEventListener('click', run);
+// autoplay once shortly after load
+setTimeout(run, 500);
+</script>
+</body>
+</html>
