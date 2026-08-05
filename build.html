@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Praxis7 — the build, in sequence</title>
-<meta name="description" content="What's live today, what we're building, and what's next — Praxis7, the AI operations layer for iGaming operators."/>
+<title>Praxis7 — the platform, in sequence</title>
+<meta name="description" content="What's live today, what we're building, and what's next — Praxis7: one platform, a branded casino per market, run by seven AI agents."/>
 <meta property="og:type" content="website"/>
-<meta property="og:title" content="Praxis7 — the build, in sequence"/>
-<meta property="og:description" content="Four surfaces live today, the connector layer building, the AI agent layer next."/>
+<meta property="og:title" content="Praxis7 — the platform, in sequence"/>
+<meta property="og:description" content="Four surfaces live, connectors + CRM building, agent orchestration and brand-per-market next."/>
 <meta property="og:image" content="https://the-stakehouse.github.io/praxis7-demo/og-image.jpg"/>
 <meta property="og:url" content="https://the-stakehouse.github.io/praxis7-demo/build.html"/>
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:title" content="Praxis7 — the build, in sequence"/>
+<meta name="twitter:title" content="Praxis7 — the platform, in sequence"/>
 <meta name="twitter:image" content="https://the-stakehouse.github.io/praxis7-demo/og-image.jpg"/>
 <style>
 :root{
@@ -27,51 +27,55 @@ body{min-height:100vh;background:
   radial-gradient(900px 520px at 6% -8%,rgba(168,85,247,.15),transparent 60%),
   radial-gradient(820px 480px at 98% 6%,rgba(236,72,153,.11),transparent 62%),
   linear-gradient(180deg,#0b0710,#080509);background-attachment:fixed}
-.wrap{max-width:1240px;margin:0 auto;padding:26px 26px 60px}
+.wrap{max-width:1280px;margin:0 auto;padding:24px 26px 60px}
 .top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
 .brand{font-weight:800;letter-spacing:.14em;font-size:14px}
 .badge{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--mag);border:1px solid var(--line);border-radius:999px;padding:7px 15px;background:rgba(236,72,153,.05)}
-h1{font-size:clamp(26px,4.2vw,40px);line-height:1.08;font-weight:800;margin:34px 0 10px;letter-spacing:-.01em}
+h1{font-size:clamp(25px,4vw,38px);line-height:1.08;font-weight:800;margin:26px 0 10px;letter-spacing:-.01em}
 h1 .g{background:linear-gradient(90deg,#ec4899,#f9a8d4,#a855f7);-webkit-background-clip:text;background-clip:text;color:transparent}
-.sub{max-width:760px;color:var(--dim);font-size:15px;line-height:1.6;margin:0 0 22px}
-.ctrl{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:10px}
-.play{border:none;cursor:pointer;border-radius:11px;padding:12px 20px;font-weight:700;font-size:14.5px;color:#fff;background:linear-gradient(90deg,#ec4899,#a855f7);box-shadow:0 10px 30px -12px rgba(236,72,153,.6);transition:filter .2s,transform .1s}
+.sub{max-width:820px;color:var(--dim);font-size:15px;line-height:1.55;margin:0 0 14px}
+.bigpic{display:flex;align-items:center;gap:12px;background:linear-gradient(90deg,rgba(168,85,247,.12),rgba(236,72,153,.06));border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:18px}
+.bigpic .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--pur);font-weight:700;flex:none}
+.bigpic .v{font-size:14.5px;color:var(--ink)}
+.bigpic .v b{color:#f9a8d4}
+.ctrl{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:8px}
+.play{border:none;cursor:pointer;border-radius:11px;padding:11px 19px;font-weight:700;font-size:14px;color:#fff;background:linear-gradient(90deg,#ec4899,#a855f7);box-shadow:0 10px 30px -12px rgba(236,72,153,.6);transition:filter .2s,transform .1s}
 .play:hover{filter:brightness(1.08)}.play:active{transform:translateY(1px)}
-.legend{display:flex;gap:16px;font-family:var(--mono);font-size:12px;color:var(--dim);flex-wrap:wrap}
+.legend{display:flex;gap:15px;font-family:var(--mono);font-size:12px;color:var(--dim);flex-wrap:wrap}
 .legend b{display:inline-flex;align-items:center;gap:7px;font-weight:400}
 .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
-/* progress track */
-.track{position:relative;height:4px;border-radius:4px;background:rgba(255,255,255,.06);margin:26px 0 8px;overflow:hidden}
-.fill{position:absolute;left:0;top:0;height:100%;width:0;background:linear-gradient(90deg,#34d399,#22d3ee,#ec4899);transition:width .1s linear}
-.phaselabels{display:grid;grid-template-columns:4fr 2fr 1.4fr;gap:14px;margin-bottom:16px}
-.pl{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.14em;opacity:.4;transition:opacity .4s}
+.track{position:relative;height:4px;border-radius:4px;background:rgba(255,255,255,.06);margin:22px 0 8px;overflow:hidden}
+.fill{position:absolute;left:0;top:0;height:100%;width:0;background:linear-gradient(90deg,#34d399,#22d3ee,#ec4899)}
+.phaselabels{display:grid;grid-template-columns:2.3fr 1.5fr 1.55fr;gap:14px;margin-bottom:14px}
+.pl{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.13em;opacity:.4;transition:opacity .4s}
 .pl.on{opacity:1}
 .pl.live{color:var(--mint)}.pl.build{color:var(--cy)}.pl.next{color:var(--mag)}
-/* columns */
-.cols{display:grid;grid-template-columns:4fr 2fr 1.4fr;gap:14px;align-items:start}
-@media(max-width:900px){.cols,.phaselabels{grid-template-columns:1fr}.phaselabels{display:none}}
-.col{display:flex;flex-direction:column;gap:14px}
+.cols{display:grid;grid-template-columns:2.3fr 1.5fr 1.55fr;gap:14px;align-items:start}
+@media(max-width:940px){.cols,.phaselabels{grid-template-columns:1fr}.phaselabels{display:none}}
+.col{display:flex;flex-direction:column;gap:13px}
 .colhead{display:none}
-@media(max-width:900px){.colhead{display:block;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.14em;margin-top:8px}
+@media(max-width:940px){.colhead{display:block;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.13em;margin-top:8px}
  .colhead.live{color:var(--mint)}.colhead.build{color:var(--cy)}.colhead.next{color:var(--mag)}}
-.grid4{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid4{display:grid;grid-template-columns:1fr 1fr;gap:13px}
 @media(max-width:560px){.grid4{grid-template-columns:1fr}}
-.card{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:15px 16px;opacity:.32;transform:translateY(8px);transition:opacity .5s,transform .5s,border-color .5s,box-shadow .5s}
+.card{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px 15px;opacity:.32;transform:translateY(8px);transition:opacity .5s,transform .5s,border-color .5s,box-shadow .5s}
 .card.on{opacity:1;transform:none}
-.card .r{display:flex;align-items:center;gap:9px}
+.card .r{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.card .l{display:flex;align-items:center;gap:9px;min-width:0}
 .card .d{width:9px;height:9px;border-radius:50%;background:#4b3b52;flex:none;transition:background .4s,box-shadow .4s}
-.card .n{font-weight:700;font-size:15.5px}
+.card .n{font-weight:700;font-size:15px}
+.card .tag{font-family:var(--mono);font-size:10px;color:var(--mut);letter-spacing:.03em;flex:none}
 .card .s{font-family:var(--mono);font-size:12px;color:var(--mut);margin-top:9px;line-height:1.5}
-.card.big{padding:18px}
-.card.big .n{font-size:17px}
-.card.big .tag{font-family:var(--mono);font-size:13px;color:var(--mag);font-weight:600;margin-top:8px}
+.card.big{padding:16px}
+.card.big .n{font-size:16px}
+.card.big .tagline{font-family:var(--mono);font-size:12.5px;color:var(--mag);font-weight:600;margin-top:7px}
 .card.live.on{border-color:rgba(52,211,153,.4);box-shadow:0 16px 40px -22px rgba(52,211,153,.5)}
 .card.live.on .d{background:var(--mint);box-shadow:0 0 0 4px rgba(52,211,153,.15)}
 .card.build.on{border-color:rgba(34,211,238,.4);box-shadow:0 16px 40px -22px rgba(34,211,238,.45)}
 .card.build.on .d{background:var(--cy);box-shadow:0 0 0 4px rgba(34,211,238,.15)}
 .card.next.on{border-color:rgba(236,72,153,.42);box-shadow:0 18px 46px -20px rgba(236,72,153,.5)}
 .card.next.on .d{background:var(--mag);box-shadow:0 0 0 4px rgba(236,72,153,.15)}
-.foot{margin-top:26px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:16px}
+.foot{margin-top:24px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:15px}
 .foot .stack{font-family:var(--mono);font-size:12.5px;color:var(--mut)}
 .foot a{color:var(--cy);text-decoration:none;font-family:var(--mono);font-size:13px}
 .foot a:hover{text-decoration:underline}
@@ -85,14 +89,19 @@ h1 .g{background:linear-gradient(90deg,#ec4899,#f9a8d4,#a855f7);-webkit-backgrou
     <div class="badge">PRAXIS7 · PRODUCT & BUILD SEQUENCE</div>
   </div>
 
-  <h1>Praxis7 — the <span class="g">build</span>, in sequence.</h1>
-  <p class="sub">Four surfaces live today, the connector layer building, the AI agent layer next — one platform on top of any operator’s stack.</p>
+  <h1>Praxis7 — the <span class="g">platform</span>, in sequence.</h1>
+  <p class="sub">The seven agents aren’t a wishlist — most of their capability is already live. What’s next is orchestrating them, and spinning a branded casino per market.</p>
+
+  <div class="bigpic">
+    <div class="k">THE BIG PICTURE</div>
+    <div class="v">One platform · a <b>branded casino per market</b> · run by <b>seven AI agents</b>, reconciled to one source of truth for money. <b>Integrate on top of your stack — or run standalone.</b></div>
+  </div>
 
   <div class="ctrl">
     <button class="play" id="play">▶ Play the build</button>
     <div class="legend">
       <b><span class="dot" style="background:#34d399"></span> Live today</b>
-      <b><span class="dot" style="background:#22d3ee"></span> Building</b>
+      <b><span class="dot" style="background:#22d3ee"></span> Building / almost there</b>
       <b><span class="dot" style="background:#ec4899"></span> Next</b>
     </div>
   </div>
@@ -100,35 +109,38 @@ h1 .g{background:linear-gradient(90deg,#ec4899,#f9a8d4,#a855f7);-webkit-backgrou
   <div class="track"><div class="fill" id="fill"></div></div>
   <div class="phaselabels">
     <div class="pl live" id="pl-live">LIVE TODAY</div>
-    <div class="pl build" id="pl-build">BUILDING</div>
-    <div class="pl next" id="pl-next">NEXT</div>
+    <div class="pl build" id="pl-build">BUILDING · ALMOST THERE</div>
+    <div class="pl next" id="pl-next">NEXT · THE BIG PICTURE</div>
   </div>
 
   <div class="cols">
     <div class="col">
       <div class="colhead live">LIVE TODAY</div>
       <div class="grid4">
-        <div class="card live" data-i="0"><div class="r"><span class="d"></span><span class="n">Data warehouse &amp; workflows</span></div><div class="s">BigQuery · ingestion · scheduling</div></div>
-        <div class="card live" data-i="1"><div class="r"><span class="d"></span><span class="n">Reconciliation &amp; liability</span></div><div class="s">cost stack · affiliate owed · P&amp;L</div></div>
-        <div class="card live" data-i="2"><div class="r"><span class="d"></span><span class="n">Analytics &amp; insights</span></div><div class="s">dashboards · KPIs · discrepancy register</div></div>
-        <div class="card live" data-i="3"><div class="r"><span class="d"></span><span class="n">Bonus / promo builder</span></div><div class="s">Bonus Terms Editor</div></div>
+        <div class="card live" data-i="0"><div class="r"><div class="l"><span class="d"></span><span class="n">Data warehouse &amp; workflows</span></div><span class="tag">Praxis Stream</span></div><div class="s">BigQuery · ingestion · scheduling</div></div>
+        <div class="card live" data-i="1"><div class="r"><div class="l"><span class="d"></span><span class="n">Reconciliation &amp; liability</span></div><span class="tag">Praxis Ledger</span></div><div class="s">cost stack · affiliate owed · P&amp;L</div></div>
+        <div class="card live" data-i="2"><div class="r"><div class="l"><span class="d"></span><span class="n">Analytics &amp; insights</span></div><span class="tag">Praxis Sense</span></div><div class="s">dashboards · KPIs · discrepancy register</div></div>
+        <div class="card live" data-i="3"><div class="r"><div class="l"><span class="d"></span><span class="n">Bonus / promo builder</span></div><span class="tag">Praxis Launch</span></div><div class="s">Bonus Terms Editor</div></div>
       </div>
     </div>
     <div class="col">
-      <div class="colhead build">BUILDING</div>
-      <div class="card build" data-i="4"><div class="r"><span class="d"></span><span class="n">Universal connectors</span></div><div class="s">any platform · CRM · affiliate</div></div>
-      <div class="card build" data-i="5"><div class="r"><span class="d"></span><span class="n">Multi-tenant onboarding</span></div><div class="s">operator by operator</div></div>
+      <div class="colhead build">BUILDING · ALMOST THERE</div>
+      <div class="card build" data-i="4"><div class="r"><div class="l"><span class="d"></span><span class="n">Universal connectors</span></div><span class="tag">Praxis Connect</span></div><div class="s">any platform · CRM · affiliate — integrate or standalone</div></div>
+      <div class="card build" data-i="5"><div class="r"><div class="l"><span class="d"></span><span class="n">CRM journeys</span></div><span class="tag">Praxis Engage</span></div><div class="s">Smartico · Optimove — almost there</div></div>
+      <div class="card build" data-i="6"><div class="r"><div class="l"><span class="d"></span><span class="n">Multi-tenant onboarding</span></div><span class="tag">platform</span></div><div class="s">operator by operator</div></div>
     </div>
     <div class="col">
-      <div class="colhead next">NEXT</div>
-      <div class="card next big" data-i="6"><div class="r"><span class="d"></span><span class="n">AI agent orchestration</span></div><div class="tag">one promo, seven jobs</div><div class="s">Seven agents fan out across the stack in real time — the differentiated platform the raise funds.</div></div>
+      <div class="colhead next">NEXT · THE BIG PICTURE</div>
+      <div class="card next big" data-i="7"><div class="r"><div class="l"><span class="d"></span><span class="n">AI agent orchestration</span></div></div><div class="tagline">one promo, seven jobs</div><div class="s">The seven agents in concert — incl. Praxis Build (creative). The differentiated platform the raise funds.</div></div>
+      <div class="card next big" data-i="8"><div class="r"><div class="l"><span class="d"></span><span class="n">Brand factory</span></div></div><div class="tagline">a branded casino per market</div><div class="s">Clone a fully-branded casino into a new market — in under a week.</div></div>
     </div>
   </div>
 
   <div class="foot">
     <div class="stack">Sits on top of any operator’s stack — Instasoft · SoftSwiss · Smartico · Optimove · iGS · Affilka</div>
     <div style="display:flex;gap:14px;align-items:center">
-      <a href="./index.html">See the magic moment →</a>
+      <a href="./index.html">Magic moment →</a>
+      <a href="./site.html">Brand factory →</a>
       <span class="wm">demo · confidential</span>
     </div>
   </div>
@@ -139,9 +151,8 @@ const cards=[...document.querySelectorAll('.card')];
 const fill=document.getElementById('fill');
 const play=document.getElementById('play');
 const pl={live:document.getElementById('pl-live'),build:document.getElementById('pl-build'),next:document.getElementById('pl-next')};
-const phaseOf=[ 'live','live','live','live','build','build','next' ];
+const phaseOf=['live','live','live','live','build','build','build','next','next'];
 let running=false, timers=[];
-
 function reset(){
   timers.forEach(clearTimeout); timers=[];
   cards.forEach(c=>c.classList.remove('on'));
@@ -152,21 +163,14 @@ function reset(){
 function run(){
   if(running) reset();
   running=true; play.textContent='● Building…';
-  const step=720, total=cards.length*step+400;
-  // progress fill
+  const step=560, total=cards.length*step+400;
   let t0=performance.now();
   const tick=()=>{const e=performance.now()-t0; const pct=Math.min(100,(e/total)*100); fill.style.width=pct+'%'; if(pct<100&&running) requestAnimationFrame(tick);};
   requestAnimationFrame(tick);
-  cards.forEach((c,i)=>{
-    timers.push(setTimeout(()=>{
-      c.classList.add('on');
-      pl[phaseOf[i]].classList.add('on');
-    }, 300+i*step));
-  });
+  cards.forEach((c,i)=>{ timers.push(setTimeout(()=>{ c.classList.add('on'); pl[phaseOf[i]].classList.add('on'); }, 300+i*step)); });
   timers.push(setTimeout(()=>{ running=false; play.textContent='▶ Replay the build'; }, total+300));
 }
 play.addEventListener('click', run);
-// autoplay once shortly after load
 setTimeout(run, 500);
 </script>
 </body>
